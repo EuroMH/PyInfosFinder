@@ -15,7 +15,7 @@ def gethwid() -> str:
     return (p.stdout.read() + p.stderr.read()).decode().split('\n')[1].strip()
 
 
-def get_geo(ip) -> dict:
+def getgeo(ip) -> dict:
     geo = {}
     try:
         geo = requests.get(f'http://ip-api.com/json/{ip}').json()
