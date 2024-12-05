@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+src/PyInfosRetriver.egg-info/PKG-INFO
+src/PyInfosRetriver.egg-info/SOURCES.txt
+src/PyInfosRetriver.egg-info/dependency_links.txt
+src/PyInfosRetriver.egg-info/entry_points.txt
+src/PyInfosRetriver.egg-info/requires.txt
+src/PyInfosRetriver.egg-info/top_level.txt
+src/python_package/__init__.py
+src/python_package/browser_cookies.py
+src/python_package/computer.py
+src/python_package/discord.py
+src/python_package/misc.py
+src/python_package/roblox.py
+tests/test_methods.py

