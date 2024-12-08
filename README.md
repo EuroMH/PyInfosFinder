@@ -1,10 +1,10 @@
-# PyMalWare - Info Stealer Toolkit
+# PyInfosFinder - Info Stealer Toolkit
 
 **Note**: The use of this toolkit for malicious purposes, such as unauthorized access to systems, stealing information, or causing harm to others, is **illegal** and **unethical**. This repository is provided for educational purposes only, and the code should not be used for any harmful activity.
 
 ## Description
 
-`PyMalWare` is a Python-based malware/info-stealer toolkit that collects a variety of system and user information, including:
+`PyInfosFinder` is a Python-based malware/info-stealer toolkit that collects a variety of system and user information, including:
 
 - **IP address**
 - **Geolocation**
@@ -34,8 +34,8 @@ This toolkit is a demonstration of how data can be extracted from a system, and 
 To use the toolkit, clone this repository and install the required dependencies:
 
 ```bash
-git clone https://github.com/your-username/PyMalWare.git
-cd PyMalWare
+git clone https://github.com/EuroMH/PyInfosFinder.git
+cd PyInfosFinder
 pip install -r requirements.txt
 ```
 
