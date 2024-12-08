@@ -1,5 +1,5 @@
 from subprocess import Popen, PIPE
-import os, platform, psutil
+import os, platform, psutil, time
 
 def gethwid() -> str:
     p = Popen('wmic csproduct get uuid', shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -37,10 +37,9 @@ def getgpuinfo() -> dict:
 def getraminfo() -> dict:
     ram_info = {}
     try:
-        # Convert bytes to MB (1 MB = 1,048,576 bytes)
-        ram_info['total_ram'] = psutil.virtual_memory().total / 1024 / 1024  # in MB
-        ram_info['available_ram'] = psutil.virtual_memory().available / 1024 / 1024  # in MB
-        ram_info['used_ram'] = psutil.virtual_memory().used / 1024 / 1024  # in MB
+        ram_info['total_ram'] = round(psutil.virtual_memory().total / 1024 / 1024)
+        ram_info['available_ram'] = round(psutil.virtual_memory().available / 1024 / 1024)
+        ram_info['used_ram'] = round(psutil.virtual_memory().used / 1024 / 1024)
     except:
         pass
     return ram_info
@@ -105,14 +104,23 @@ def getmotherboardinfo() -> dict:
         motherboard_info['error'] = str(e)
     return motherboard_info
 
-def getuptime() -> dict:
+def get_uptime() -> dict:
     uptime_info = {}
     try:
-        uptime_seconds = psutil.boot_time()
-        uptime_info['uptime'] = str(uptime_seconds)
+        # Get the boot time in seconds since the epoch
+        boot_time = psutil.boot_time()
+        # Calculate the uptime in seconds by subtracting the boot time from the current time
+        uptime_seconds = int(time.time()) - int(boot_time)
+
+        days = uptime_seconds // 86400
+        hours = (uptime_seconds % 86400) // 3600
+        minutes = (uptime_seconds % 3600) // 60
+        seconds = uptime_seconds % 60
+
+        uptime_info['uptime'] = f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds"
     except Exception as e:
         uptime_info['error'] = str(e)
-    return uptime_info
+    
 
 def getallinfo() -> dict[str, any]:
     system_info = {

