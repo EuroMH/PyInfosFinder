@@ -21,7 +21,8 @@ pause
 cls
 
 :: Set the PyPI token for Twine
-set TWINE_PASSWORD=pypi-AgEIcHlwaS5vcmcCJDY5NjBiZjI2LWJkYWUtNGE4ZS1iMmFlLTcyM2QyNzRjZTEwYQACKlszLCI0NWUxMGZkYi0zYTdhLTQ5MWUtOGJjZS02NThkYWJkMTA5OWMiXQAABiD17_dL2lAUA6FqxcMFpu-b-dz7SNxdWyQtFsQOuv8K7g
+set TWINE_PASSWORD=pypi-AgEIcHlwaS5vcmcCJDY5NjBiZjI2LWJkYWUtNGE4ZS1iMmFlLTcyM2QyNzRjZTEwYQACKlszLCI0NWUxMGZkYi0zYTdhLTQ5MWUtOGJjZS0
+2NThkYWJkMTA5OWMiXQAABiD17_dL2lAUA6FqxcMFpu-b-dz7SNxdWyQtFsQOuv8K7g
 
 :: Build the module
 echo Building the module...
@@ -34,4 +35,10 @@ twine upload dist/*
 set TWINE_PASSWORD=
 
 echo Upload complete.
+pause
+cls
+echo installing the module.
+cd dist
+pip install pyinforetriever-0.1.0-py3-none-any.whl --force-reinstall
+echo Succesfully installed the new veresion!
 pause

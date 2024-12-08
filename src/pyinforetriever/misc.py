@@ -16,11 +16,12 @@ def getgeo(ip) -> dict:
         pass
     return geo
 
-def getallinfo() -> str:
-    system_info = ""
-
-    system_info += f"IP: {getip()}\n"
-    system_info += f"GeoLocation: {getgeo(getip())}\n"
-
+def getallinfo() -> dict:
+    ip = getip()
+    geo_info = getgeo(ip)
+    
+    system_info = {
+        "ip": ip,
+        "geo": geo_info
+    }
     return system_info
-
