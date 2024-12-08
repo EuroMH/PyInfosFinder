@@ -1,14 +1,14 @@
 Metadata-Version: 2.1
 Name: PyInfosRetriver
-Version: 0.0.1
+Version: 0.1.0
 Summary: A Python package that can get information.
 Author: EuroMH
 Maintainer-email: EuroMH <bypassfdp1501@gmail.com>
-Project-URL: Homepage, https://github.com/EuroMH/PyMalWare
-Project-URL: Bug Reports, https://github.com/EuroMH/PyMalWare/issues
+Project-URL: Homepage, https://github.com/EuroMH/PyInfosRetriver
+Project-URL: Bug Reports, https://github.com/EuroMH/PyInfosRetriver/issues
 Project-URL: Funding, https://donate.pypi.org
 Project-URL: Say Thanks!, http://saythanks.io/to/example
-Project-URL: Source, https://github.com/EuroMH/PyMalWare
+Project-URL: Source, https://github.com/EuroMH/PyInfosRetriver 
 Keywords: sample,setuptools,development
 Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Developers

