@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "PyInfosRetriver"
+name = "pyinforetriever"
 version = "0.1.0"  # Corrected to 'version' instead of 'versions'
 description = "A Python package that can get information."
 readme = "README.md"
@@ -46,5 +46,5 @@ test = ["coverage"]
 sample = "sample:main"
 
 [tool.setuptools]
-packages = ["python_package"]
+packages = ["pyinforetriever"]
 package-dir = { "" = "src" }

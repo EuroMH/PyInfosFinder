@@ -31,7 +31,7 @@ python -m build
 twine upload dist/*
 
 :: Unset the PyPI token after upload for security
-set TWINE_PASSWORD=pypi-AgEIcHlwaS5vcmcCJDY5NjBiZjI2LWJkYWUtNGE4ZS1iMmFlLTcyM2QyNzRjZTEwYQACKlszLCI0NWUxMGZkYi0zYTdhLTQ5MWUtOGJjZS02NThkYWJkMTA5OWMiXQAABiD17_dL2lAUA6FqxcMFpu-b-dz7SNxdWyQtFsQOuv8K7g
+set TWINE_PASSWORD=
 
 echo Upload complete.
 pause

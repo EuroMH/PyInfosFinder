@@ -1,5 +1,5 @@
 from Crypto.Cipher import AES
-from src.pyinforetriever.__init__ import local, roaming
+from pyinforetriever.__init__ import local, roaming
 import os, shutil, sqlite3, base64
 from json import loads
 from win32crypt import CryptUnprotectData

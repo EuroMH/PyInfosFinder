@@ -114,18 +114,19 @@ def getuptime() -> dict:
         uptime_info['error'] = str(e)
     return uptime_info
 
-def getallinfo() -> str:
-    system_info = ""
+def getallinfo() -> dict[str, any]:
+    system_info = {
+        "HWID": gethwid(),
+        "Username":getuser(),
+        "CPU": getcpuinfo(),
+        "GPU": getgpuinfo(),
+        "RAM": getraminfo(),
+        "OS": getosinfo(),
+        "Disk": getdiskinfo(),
+        "Battery": getbatteryinfo(),
+        "Motherboard": getmotherboardinfo(),
+        "Uptime": getuptime()
+    }
 
-    system_info += f"HWID: {gethwid()}\n"
-    system_info += f"Username: {getuser()}\n"
-    system_info += f"CPU: {getcpuinfo()}\n"
-    system_info += f"GPU: {getgpuinfo()}\n"
-    system_info += f"RAM: {getraminfo()}\n"
-    system_info += f"OS: {getosinfo()}\n"
-    system_info += f"Disk: {getdiskinfo()}\n"
-    system_info += f"Battery: {getbatteryinfo()}\n"
-    system_info += f"Motherboard: {getmotherboardinfo()}\n"
-    system_info += f"Uptime: {getuptime()}\n"
 
     return system_info
