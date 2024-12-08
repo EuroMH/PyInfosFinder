@@ -133,7 +133,7 @@ def getallinfo() -> dict[str, any]:
         "Disk": getdiskinfo(),
         "Battery": getbatteryinfo(),
         "Motherboard": getmotherboardinfo(),
-        "Uptime": getuptime()
+        "Uptime": get_uptime()
     }
 
 
